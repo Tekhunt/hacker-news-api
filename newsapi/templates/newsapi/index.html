@@ -1,0 +1,54 @@
+{% extends 'newsapi/base.html' %}
+{% load static %}
+
+    {% block content %}
+    {% load static %}
+    <div class="form-wrapper">
+
+        <form class="add_your_class" method="GET" action="{% url 'search' %}" >
+            <input class="filter-query" type="search" name="search" placeholder="Filter by type of item"> 
+            <button class="add_your_class" type="submit"> Search </button>
+        </form>
+
+        <form class="add_your_class" method="GET" action="" >
+            <input class="add_your_class" type="search" name="search" placeholder="Filter by text"> 
+            <button class="add_your_class" type="submit"> Search </button>
+        </form>
+    </div>
+    <!-- <p>{{ dataList }}</p> -->
+    <div class="wrapper">
+        {% for data in dataList %}
+        <div class="content">
+            <p>Author: {{ data.by}}</p>
+            <p>ID: {{ data.id}}</p>
+            <p>Scores: {{ data.score}}</p>
+            <p>Title: {{ data.title}}</p>
+            <p>Type: {{ data.type}}</p>
+            <hr>
+            <p>URL: <a href="{{ data.url }}" target="_blank"><button> News source</button></a> </p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+        <div class="container p-4">
+            <div class="pagination justify-content-center">
+                <span class="step-links">
+                  {% if dataList.has_previous %}
+                      <a href="?page=1"><button>first</button></a>
+                      <a href="?page={{ dataList.previous_page_number }}"><button><i class="fa fa-arrow-left"></i></button></a>
+                  {% endif %}
+    
+                    <span class="current">
+                        <button>page</button> <button>{{ dataList.number }}</button> of <button>{{ dataList.paginator.num_pages }}</button>
+                    </span>
+    
+                  {% if dataList.has_next %}
+                      <a href="?page={{ dataList.next_page_number }}"><button><i class="fa fa-arrow-right"></i></button></a>
+                      <a href="?page={{ dataList.paginator.num_pages }}"><button>left</button></a>
+                  {% endif %}
+                </span>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
