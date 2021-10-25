@@ -11,7 +11,12 @@ from django.views.generic.list import ListView
 
 def objectArray():
     dataObj = []
-    for i in range(1,21):
+    list_url = 'https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty'
+    # print(list_url)
+    list_response = requests.get(list_url)
+    list_data = list_response.json()
+    print(list_data)
+    for i in list_data:
         url = f'https://hacker-news.firebaseio.com/v0/item/{str(i)}.json?print=pretty'
         response = requests.get(url)
         data = response.json()
@@ -21,10 +26,12 @@ def objectArray():
 def indexView(request):
     dataList = objectArray()
     
-    paginator = Paginator(dataList, 12)
+    paginator = Paginator(dataList[:100], 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     print(dataList)
+    
+    
     
     
     # for item in dataList:
